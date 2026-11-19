@@ -18,15 +18,15 @@ jobs:
       group: deal-alerts-${{ matrix.worker }}   # never two runs of the same brand at once
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
 
       # each worker has its own memory of prices / already-sent alerts
       - name: Restore state
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: state-${{ matrix.worker }}.json
           key: state-${{ matrix.worker }}-${{ github.run_id }}
@@ -42,7 +42,7 @@ jobs:
 
       - name: Save state
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: state-${{ matrix.worker }}.json
           key: state-${{ matrix.worker }}-${{ github.run_id }}
