@@ -476,6 +476,7 @@ def zappos_brand_shoes(cfg, state, only=None):
     cat = zc.get("category", "Brand Shoes")
     min_drop = zc.get("min_drop_percent", 0)
     models = {}  # (brand, productId) -> list of dropped colors
+    seen_now = 0
     for brand, b in zc["brands"].items():
         if only and brand != only:
             continue
@@ -503,6 +504,7 @@ def zappos_brand_shoes(cfg, state, only=None):
                     if now is None:
                         continue
                     key = f"z:{s['styleId']}"
+                    seen_now += 1
                     old = prices.get(key)
                     prices[key] = now
                     if old is None or now >= old:
@@ -516,7 +518,9 @@ def zappos_brand_shoes(cfg, state, only=None):
             time.sleep(2)
         time.sleep(2)
 
-    print(f"  zappos: tracking {len(prices)} shoe colors, {sum(len(v) for v in models.values())} dropped this run")
+    state["seen_this_run"] = seen_now
+    print(f"  zappos: read {seen_now} shoe colors this run (tracking {len(prices)}), "
+          f"{sum(len(v) for v in models.values())} dropped")
     out = []
     for (brand, pid), drops in models.items():
         drops.sort(key=lambda d: d[0])
@@ -683,6 +687,28 @@ def main():
 
     found = {}
     sources = list(all_workers[name](state).items())
+
+    # health check: if a worker that should always see products sees nothing
+    # for ~1 hour (6 runs), email once so a broken site never goes unnoticed
+    if name not in ("brand-emails", "google-shopping"):
+        if "zappos_prices" in state:
+            tracked = state.pop("seen_this_run", 0)
+        else:  # favorites / nike: count products read this run (before dedupe)
+            tracked = sum(len(v) for _, v in sources)
+        if tracked == 0:
+            state["empty_runs"] = state.get("empty_runs", 0) + 1
+        else:
+            state["empty_runs"] = 0
+            state.pop("health_alerted", None)
+        if state["empty_runs"] >= 6 and not state.get("health_alerted"):
+            try:
+                send_all([(f"[Deal alerts] WARNING: '{name}' worker found no products for 1 hour",
+                           f"<p>The <b>{html.escape(name)}</b> worker has not found any products in its last "
+                           f"{state['empty_runs']} runs. The store may have changed its website or be blocking. "
+                           f"Check https://github.com/pavan3434/deal-alerts/actions</p>")])
+                state["health_alerted"] = True
+            except Exception as e:
+                print("  ! health alert failed:", e)
     for cat, items in sources:
         found.setdefault(cat, []).extend(items)
 
