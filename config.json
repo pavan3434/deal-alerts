@@ -1,0 +1,113 @@
+{
+  "_help": "Edit this file to change what you get alerted about. Categories are checked in order; each deal goes to the first category it matches, so you never get the same deal twice.",
+
+  "max_emails_per_run": 15,
+
+  "watch_products": [
+    {
+      "_note": "FAVORITE: Nike Pegasus Premium men's, Photon Dust/Black. Remove only_color_code to watch every color.",
+      "url": "https://www.nike.com/t/pegasus-premium-mens-road-running-shoes-kWXqW9yR/IR1229-001",
+      "only_color_code": "IR1229-001",
+      "category": "Favorites",
+      "sizes": ["10", "10.5"],
+      "alert_below": null
+    },
+    {"_note": "New Balance 9060 (unisex; not on Zappos) - brand price via Google Shopping", "url": "https://www.newbalance.com/pd/9060/U9060V1-43415.html", "search": "New Balance 9060", "category": "Favorites", "sizes": ["10", "10.5"]},
+    {"_note": "New Balance FuelCell Rebel v5 (M) - brand price via Google Shopping + Zappos heads-up", "url": "https://www.newbalance.com/pd/fuelcell-rebel-v5/MFCXV5-50690.html", "search": "New Balance FuelCell Rebel v5 men's", "category": "Favorites", "sizes": ["10", "10.5"]},
+    {"_note": "New Balance FuelCell Rebel v6 (M) - not found in US yet; alerts once New Balance lists it", "url": "https://www.newbalance.com/search?q=fuelcell+rebel+v6", "search": "New Balance FuelCell Rebel v6 men's", "category": "Favorites", "sizes": ["10", "10.5"]},
+    {"_note": "ASICS Novablast 5 (WOMEN'S) - Dick's link; Dick's/ASICS price via Google Shopping + Zappos heads-up", "url": "https://www.dickssportinggoods.com/p/asics-womens-novablast-5-running-shoes-24asimnvblst5grysmns/24asimnvblst5grysmns", "search": "ASICS Women's Novablast 5", "category": "Favorites", "sizes": ["10", "10.5"]},
+    {"_note": "On Cloudtilt Moon (M) Nickel",        "url": "https://www.on.com/en-us/products/cloudtilt-moon-m-3mf3067/mens/nickel-nickel-shoes-3MF30676053",    "only_color_code": "3MF30676053", "category": "Favorites", "sizes": ["10", "10.5"], "alert_below": null},
+    {"_note": "On Cloudtilt Remix (M) Alloy/Ivory",  "url": "https://www.on.com/en-us/products/cloudtilt-remix-m-3mg1027/mens/alloy-ivory-shoes-3MG10273228",   "only_color_code": "3MG10273228", "category": "Favorites", "sizes": ["10", "10.5"], "alert_below": null},
+    {"_note": "On Cloudtilt (M) Black/Ivory",        "url": "https://www.on.com/en-us/products/cloudtilt-m-3me1010/mens/black-ivory-shoes-3ME10101430",          "only_color_code": "3ME10101430", "category": "Favorites", "sizes": ["10", "10.5"], "alert_below": null},
+    {"_note": "On Cloud 6 Wide (M) White/White",     "url": "https://www.on.com/en-us/products/cloud-6-wide-m-3mg1043/mens/white-white-shoes-3MG10431200",       "only_color_code": "3MG10431200", "category": "Favorites", "sizes": ["10", "10.5"], "alert_below": null},
+    {"_note": "On Cloudzone Moon (M) Alloy/Rock",    "url": "https://www.on.com/en-us/products/cloudzone-moon-m-3mf3084/mens/alloy-rock-shoes-3MF30843295",      "only_color_code": "3MF30843295", "category": "Favorites", "sizes": ["10", "10.5"], "alert_below": null},
+    {"_note": "On Cloudsurfer Next (M) Seedling",    "url": "https://www.on.com/en-us/products/cloudsurfer-next-3me3002/mens/seedling-seedling-shoes-3ME30024719", "only_color_code": "3ME30024719", "category": "Favorites", "sizes": ["10", "10.5"], "alert_below": null},
+    {"_note": "On Cloudtilt (WOMEN'S) White/Ivory - women's sizes 10/10.5", "url": "https://www.on.com/en-us/products/cloudtilt-w-3we1005/womens/white-ivory-shoes-3WE10050924", "only_color_code": "3WE10050924", "category": "Favorites", "sizes": ["10", "10.5"], "alert_below": null}
+  ],
+
+  "google_shopping": {
+    "_help": "Option 2. For favorites on brands whose sites block us: reads the price the BRAND'S OWN store lists on Google Shopping (via SerpApi, needs SERPAPI_KEY secret). Free SerpApi plan = ~100 searches/month, so each favorite is checked every few hours, not every 10 min. Rule of thumb: favorites x (24 / hours_between_checks) x 30 must stay under your plan.",
+    "hours_between_checks": 36,
+    "brands": {
+      "adidas":       {"name": "adidas",       "domain": "adidas.com",        "seller_names": ["adidas"]},
+      "lacoste":      {"name": "Lacoste",      "domain": "lacoste.com",       "seller_names": ["lacoste"]},
+      "hoka":         {"name": "HOKA",         "domain": "hoka.com",          "seller_names": ["hoka"]},
+      "asics":        {"name": "ASICS",        "domain": "asics.com",         "seller_names": ["asics"]},
+      "brooks":       {"name": "Brooks",       "domain": "brooksrunning.com", "seller_names": ["brooks running", "brooks"]},
+      "under-armour": {"name": "Under Armour", "domain": "underarmour.com",   "seller_names": ["under armour"]},
+      "new-balance":  {"name": "New Balance",  "domain": "newbalance.com",    "seller_names": ["new balance"]},
+      "dicks":        {"name": "",             "domain": "dickssportinggoods.com", "seller_names": ["dick's sporting goods", "dicks sporting goods", "asics"]}
+    }
+  },
+
+  "brand_emails": {
+    "_help": "Option 3. Reads the brands' OWN emails in your Gmail (sign up for each brand's emails + favorite items in your accounts). Copies them to the 'Brand Deals' label and alerts you when it's a sale / price drop or mentions a favorite.",
+    "label": "Brand Deals",
+    "senders": {
+      "Nike": "nike.com", "adidas": "adidas.com", "Lacoste": "lacoste.com", "On": "on.com",
+      "HOKA": "hoka.com", "ASICS": "asics.com", "Brooks": "brooksrunning.com", "Under Armour": "underarmour.com",
+      "New Balance": "newbalance.com"
+    },
+    "alert_keywords": ["price drop", "price has dropped", "now on sale", "on sale", "% off", "black friday", "cyber monday", "markdown", "sale ends", "lower price", "back in stock"],
+    "favorite_names": ["pegasus premium", "cloudtilt", "cloud 6", "cloudzone", "cloudsurfer next", "9060", "rebel v5", "rebel v6", "novablast"]
+  },
+
+  "zappos": {
+    "_help": "HEADS-UP alerts for brands whose own sites block automatic checks. Price seen on Zappos; email button opens the BRAND's own site search for that shoe so you can confirm and buy there. One worker per brand, one email per shoe model. Nike is NOT here - Nike is checked directly on nike.com.",
+    "max_pages": 3,
+    "min_drop_percent": 0,
+    "favorite_models": ["fuelcell rebel v5", "fuelcell rebel v6", "9060", "novablast 5"],
+    "brands": {
+      "Adidas":       {"slug": "adidas-men-shoes",       "brand_names": ["adidas", "adidas Originals", "adidas Running", "adidas Golf"], "brand_domain": "adidas.com",          "brand_search": "https://www.adidas.com/us/search?q={q}"},
+      "Lacoste":      {"slug": "lacoste-men-shoes",      "brand_names": ["Lacoste"],                                                   "brand_domain": "lacoste.com",         "brand_search": "https://www.lacoste.com/us/search?q={q}"},
+      "HOKA":         {"slug": "hoka-men-shoes",         "brand_names": ["HOKA"],                                                      "brand_domain": "hoka.com",            "brand_search": "https://www.hoka.com/en/us/search?q={q}"},
+      "ASICS":        {"slug": "asics-men-shoes",        "brand_names": ["ASICS", "ASICS SportStyle", "ASICS Tiger"],                  "brand_domain": "asics.com",           "brand_search": "https://www.asics.com/us/en-us/search?q={q}"},
+      "Brooks":       {"slug": "brooks-men-shoes",       "brand_names": ["Brooks"],                                                    "brand_domain": "brooksrunning.com",   "brand_search": "https://www.brooksrunning.com/en_us/search?q={q}"},
+      "Under Armour": {"slug": "under-armour-men-shoes", "brand_names": ["Under Armour"],                                              "brand_domain": "underarmour.com",     "brand_search": "https://www.underarmour.com/en-us/search/?q={q}"},
+      "On":           {"slug": "on-men-shoes",           "brand_names": ["On"],                                                        "brand_domain": "on.com",              "brand_search": "https://www.on.com/en-us/search?q={q}"},
+      "ASICS Women":  {"slug": "asics-women-shoes",      "brand_names": ["ASICS"], "only_favorites": true,                             "brand_domain": "asics.com",           "brand_search": "https://www.asics.com/us/en-us/search?q={q}"},
+      "New Balance":  {"slug": "new-balance-men-shoes",  "brand_names": ["New Balance", "New Balance Classics"],                       "brand_domain": "newbalance.com",      "brand_search": "https://www.newbalance.com/search?q={q}"}
+    }
+  },
+
+  "nike": {
+    "_help": "Nike's own sale pages. Alerts link straight to nike.com. You get an email when an item newly goes on sale or its price drops further.",
+    "min_discount_percent": 30,
+    "product_types": {"FOOTWEAR": "Shoes", "APPAREL": "Clothes"},
+    "sale_pages": [
+      "https://www.nike.com/w/sale-3yaep",
+      "https://www.nike.com/w/sale-shoes-3yaepzy7ok",
+      "https://www.nike.com/w/sale-clothing-3yaepz6ymx7"
+    ]
+  },
+
+  "use_slickdeals": false,
+  "min_thumb_score": 0,
+
+  "categories": [
+    {
+      "name": "Black Friday",
+      "searches": ["black friday shoes", "black friday clothing", "black friday nike", "black friday adidas", "black friday jacket"],
+      "title_must_contain_any": ["black friday", "bf "],
+      "also_must_contain_any": ["shoe", "sneaker", "boot", "nike", "adidas", "jordan", "new balance", "puma", "reebok", "asics", "hoka", "vans", "converse", "skechers", "under armour", "levi", "jacket", "hoodie", "shirt", "jeans", "pants", "shorts", "sweater", "sweatshirt", "coat", "fleece", "apparel", "clothing", "tee", "polo", "socks", "joggers", "leggings"]
+    },
+    {
+      "name": "Shoes",
+      "searches": ["shoes", "sneakers", "running shoes", "boots", "nike", "adidas", "jordan", "new balance", "asics", "hoka", "puma", "skechers"],
+      "title_must_contain_any": ["shoe", "sneaker", "boot", "slide", "sandal", "trainer", "runner", "jordan", "air max", "air force", "dunk", "ultraboost", "samba", "gazelle", "clog", "loafer"]
+    },
+    {
+      "name": "Clothes",
+      "searches": ["jacket", "hoodie", "jeans", "shirt", "sweater", "coat", "pants", "clothing", "apparel", "levi's", "under armour", "columbia"],
+      "title_must_contain_any": ["jacket", "hoodie", "shirt", "jeans", "pants", "shorts", "sweater", "sweatshirt", "coat", "fleece", "vest", "apparel", "clothing", "tee", "polo", "joggers", "leggings", "socks", "parka", "pullover", "chinos", "dress", "underwear", "thermal"]
+    }
+  ],
+
+  "exclude_words": ["shoe rack", "shoe organizer", "shoe storage", "shoe cabinet", "phone case", "tv ", "laptop", "monitor", "dress shirt hanger", "jacket for ipad", "pants hanger"],
+
+  "shopify_stores": {
+    "_help": "Optional. Shopify store domains to watch for price drops (most big brands block bots; blocked stores are skipped quietly). Example: \"www.allbirds.com\"",
+    "Shoes": [],
+    "Clothes": []
+  }
+}

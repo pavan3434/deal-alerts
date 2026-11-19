@@ -1,0 +1,48 @@
+name: Deal alerts
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes (GitHub can delay a few minutes at busy times)
+  workflow_dispatch: {}        # "Run workflow" button for manual tests
+
+jobs:
+  check:
+    name: ${{ matrix.worker }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false         # one brand failing never stops the others
+      matrix:
+        worker: [favorites, google-shopping, brand-emails, nike, adidas, lacoste, hoka, asics, brooks, under-armour, new-balance, asics-women, "on"]
+    concurrency:
+      group: deal-alerts-${{ matrix.worker }}   # never two runs of the same brand at once
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # each worker has its own memory of prices / already-sent alerts
+      - name: Restore state
+        uses: actions/cache/restore@v4
+        with:
+          path: state-${{ matrix.worker }}.json
+          key: state-${{ matrix.worker }}-${{ github.run_id }}
+          restore-keys: state-${{ matrix.worker }}-
+
+      - name: Check prices and email
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          ALERT_TO: ${{ secrets.ALERT_TO }}
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+        run: python deal_alerts.py ${{ matrix.worker }}
+
+      - name: Save state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: state-${{ matrix.worker }}.json
+          key: state-${{ matrix.worker }}-${{ github.run_id }}

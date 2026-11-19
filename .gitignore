@@ -1,0 +1,10 @@
+state*.json
+__pycache__/
+.env
+# never commit passwords / tokens / account logins
+*.secret
+secrets*.json
+credentials*.json
+accounts*.json
+passwords*
+*.key
