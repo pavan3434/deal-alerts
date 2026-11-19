@@ -516,6 +516,7 @@ def zappos_brand_shoes(cfg, state, only=None):
             time.sleep(2)
         time.sleep(2)
 
+    print(f"  zappos: tracking {len(prices)} shoe colors, {sum(len(v) for v in models.values())} dropped this run")
     out = []
     for (brand, pid), drops in models.items():
         drops.sort(key=lambda d: d[0])
