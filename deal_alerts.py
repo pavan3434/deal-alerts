@@ -663,6 +663,15 @@ def main():
         sys.exit("config.json missing or invalid")
     all_workers = workers(cfg)
     name = sys.argv[1] if len(sys.argv) > 1 else ""
+    if name == "test-email":
+        items = [d for v in watched_products(cfg).values() for d in v][:1]
+        if not items:
+            sys.exit("could not load a favorite to build the test email")
+        d = dict(items[0])
+        d["title"] = "TEST EMAIL - " + d["title"]
+        d["details"] = "This is a test so you can see what alerts look like. " + d["details"]
+        print("sent", send_all([build_email("Favorites", d)]), "test email")
+        return
     if name not in all_workers:
         sys.exit(f"usage: python deal_alerts.py <worker>\nworkers: {', '.join(all_workers)}")
     state_file = os.path.join(HERE, f"state-{name}.json")
